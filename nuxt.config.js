@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Biljumla',
-    title: 'Biljumla',
+    titleTemplate: '%s - Rasd',
+    title: 'Rasd',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -106,7 +106,7 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    rtl: true,
+    rtl: false,
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
@@ -160,5 +160,7 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    
+  },
+ 
 }

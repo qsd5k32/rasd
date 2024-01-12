@@ -266,7 +266,7 @@ export default {
   'unitedArabEmirates': 'united arab emirates',
   searchResultOf: 'Search result of',
   coupon: 'coupon',
-  submit: 'submit',
+  "submit": 'Submit',
   couponReduction: 'coupon reduction',
   shop: 'shop',
   priceRange: 'price range',

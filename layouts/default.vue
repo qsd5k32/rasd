@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar
+    <NavBar />
+    <!-- <v-app-bar
       :clipped-left="clipped"
       flat
       color="primary"
@@ -28,12 +29,11 @@
       <v-btn href="https://www.instagram.com/biljumlastore/" target="_blank"  icon color="white">
         <v-icon>mdi-instagram</v-icon>
       </v-btn>
-    </v-app-bar>
-      <!--            <mega-menu v-if="$vuetify.breakpoint.lgAndUp" :title="menu.name" :items="menu.items" v-for="menu in menus"/>-->
-      <!--            <v-btn icon nuxt :to="localePath('/')"><v-icon>mdi-home</v-icon></v-btn>-->
+    </v-app-bar> -->
+    <!--            <mega-menu v-if="$vuetify.breakpoint.lgAndUp" :title="menu.name" :items="menu.items" v-for="menu in menus"/>-->
+    <!--            <v-btn icon nuxt :to="localePath('/')"><v-icon>mdi-home</v-icon></v-btn>-->
 
-      <!--      <delivery />-->
-
+    <!--      <delivery />-->
 
     <v-main style="margin-top: 60px">
       <toast-notification />
@@ -49,17 +49,17 @@
       <v-card flat>
         <v-card-text class="text-capitalize">
           <v-list-item nuxt :to="localePath('/')">
-            <v-list-item-content>{{ $t('home') }}</v-list-item-content>
+            <v-list-item-content>{{ $t("home") }}</v-list-item-content>
           </v-list-item>
           <v-list-item nuxt :to="localePath('/search')">
-            <v-list-item-content>{{ $t('shop') }}</v-list-item-content>
+            <v-list-item-content>{{ $t("shop") }}</v-list-item-content>
           </v-list-item>
           <v-divider />
           <v-list-item nuxt :to="localePath('/page/about-us')">
-            <v-list-item-content>{{ $t('about_us') }}</v-list-item-content>
+            <v-list-item-content>{{ $t("about_us") }}</v-list-item-content>
           </v-list-item>
           <v-list-item nuxt :to="localePath('/contact')">
-            <v-list-item-content>{{ $t('contactUs') }}</v-list-item-content>
+            <v-list-item-content>{{ $t("contactUs") }}</v-list-item-content>
           </v-list-item>
         </v-card-text>
       </v-card>
@@ -69,27 +69,24 @@
         <login-card v-if="!registerCard" />
         <register-card :login-dialog="loginDialog" v-else />
         <v-card-text>
-          <v-btn v-if="!registerCard" text @click="registerCard = true">{{
-              $t('auth.register')
-            }}
+          <v-btn v-if="!registerCard" text @click="registerCard = true"
+            >{{ $t("auth.register") }}
           </v-btn>
-          <v-btn v-else text @click="registerCard = false">{{
-              $t('auth.login')
-            }}
+          <v-btn v-else text @click="registerCard = false"
+            >{{ $t("auth.login") }}
           </v-btn>
         </v-card-text>
-
       </v-card>
     </v-dialog>
   </v-app>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'DefaultLayout',
-  data () {
+  name: "DefaultLayout",
+  data() {
     return {
       clipped: false,
       drawer: false,
@@ -100,44 +97,36 @@ export default {
       query: null,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
+          icon: "mdi-apps",
+          title: "Welcome",
+          to: "/",
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+          icon: "mdi-chart-bubble",
+          title: "Inspire",
+          to: "/inspire",
+        },
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'بالجملة'
-    }
+      title: "بالجملة",
+    };
   },
-  computed:{
-    ...mapGetters({
-
-    })
+  computed: {
+    ...mapGetters({}),
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
-    ...mapActions({
-
-    }),
-    search()
-    {
-      this.$router.push(this.localePath('/search?query=' + this.query))
-    }
-  }
-}
+    ...mapActions({}),
+    search() {
+      this.$router.push(this.localePath("/search?query=" + this.query));
+    },
+  },
+};
 </script>
 <style>
-input[type="password"]
-{
+input[type="password"] {
   font-family: auto;
 }
 </style>

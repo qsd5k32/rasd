@@ -1,0 +1,14 @@
+@font-face {
+  font-family: Droid;
+  src: url('/fonts/ArbFONTS-Droid-Arabic-Kufi.ttf');
+}
+
+@font-face {
+  font-family: Droid;
+  src: url("/fonts/ArbFONTS-Droid-Arabic-Kufi-Bold.ttf");
+  font-weight: bold;
+}
+
+* {
+  font-family: Droid;
+}

@@ -18,6 +18,7 @@
           <v-text-field
             :error-messages="errors.name"
             :label="$t('auth.username')"
+            :rules="[(v) => !!v || $t('validation.required')]"
             @change="errors.company_name = []"
             color="primary"
             prepend-inner-icon="mdi-account"
@@ -65,9 +66,6 @@
             {{ $t("submit") }}
           </v-btn>
         </v-form>
-        <div v-if="successMessage" class="success-message">
-          {{ successMessage }}
-        </div>
       </v-card-text>
     </v-card>
   </split-form>
@@ -117,54 +115,9 @@ export default {
         this.fields.domain_name = this.fields.email.split("@")[1];
       }
     },
-    fetchCountries() {
-      this.$axios
-        .get("countries")
-        .then((res) => {
-          this.countries = res.data;
-        })
-        .catch((error) => {
-          console.error("Error fetching countries:", error);
-        });
-    },
-    fetchCities() {
-      if (this.country_id) {
-        this.$axios
-          .get(`cities/${this.country_id}`)
-          .then((res) => {
-            this.cities = res.data;
-          })
-          .catch((error) => {
-            console.error("Error fetching countries:", error);
-          });
-      } else {
-        this.cities = [];
-      }
-    },
-    submitRequest() {
-      this.$axios
-        .post("tenant-request/store?", this.fields)
-        .then((response) => {
-          this.successMessage =
-            "Your Form has been submitted successfully, and it is under process. Our team will contact you for more details ";
-        })
-        .catch((error) => {
-          console.error("Error submitting form:", error);
-        });
-    },
+
+    submitRequest() {},
   },
-  mounted() {
-    this.fetchCountries();
-  },
+  mounted() {},
 };
 </script>
-
-<style scoped>
-.success-message {
-  font-size: 2em; /* Adjust the font size as needed */
-  text-align: center;
-  padding: 20px;
-  color: #120505; /* Change the text color to your desired color */
-  border-radius: 5px;
-}
-</style>

@@ -53,7 +53,7 @@ export default {
     baseUrl: '/',
     parsePages: false,
     seo: false,
-    defaultLocale: 'en',
+    defaultLocale: 'ar',
     locales: [
       {
         name: 'العربية',
@@ -93,7 +93,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://api.biljumla.com/api',
+    baseURL: 'https://rasd.pmisexpro.com/api',
     //baseURL: 'http://127.0.0.1:8000/api',
   },
 
@@ -106,13 +106,13 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    rtl: false,
+    rtl: true,
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: false,
+      dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: '#00BFA6',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -121,7 +121,7 @@ export default {
           success: colors.green.accent3
         },
         light: {
-          primary: '#222',
+          primary: '#00BFA6',
           secondary: '#474E68'
         }
       }
@@ -140,7 +140,7 @@ export default {
         },
         endpoints: {
           login: {
-            url: 'https://api.biljumla.com/api/login',
+            url: 'https://rasd.pmisexpro.com/api/login',
             method: 'post',
             propertyName: 'token'
           },
@@ -160,7 +160,7 @@ export default {
   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    
+
   },
- 
+
 }

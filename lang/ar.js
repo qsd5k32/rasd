@@ -273,4 +273,12 @@ export default {
   shop: 'المتجر',
   "categories": "الاقسام",
   priceRange: 'السعر',
+
+  welcomeToRasd: 'مرحبًا بك في رصد',
+  discoverOurWorldclassServicesAndInnovativeSolution: 'اكتشف خدماتنا العالمية المستوى وحلولنا المبتكرة.',
+  photoOptions: 'خيارات الصورة',
+  retake: 'إعادة التقاط',
+  send2: 'إرسال',
+
+  notes: 'ملاحظات',
 }

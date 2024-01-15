@@ -272,4 +272,13 @@ export default {
   priceRange: 'price range',
 
 
+  welcomeToRasd: 'Welcome to Rasd',
+  discoverOurWorldclassServicesAndInnovativeSolution: 'Discover our world-class services and innovative solutions.',
+  photoOptions: 'Photo Options',
+  retake: 'Retake',
+  send2: 'Send',
+
+  notes: 'Notes',
+
+
 }

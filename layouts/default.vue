@@ -1,41 +1,8 @@
 <template>
   <v-app>
     <NavBar />
-    <!-- <v-app-bar
-      :clipped-left="clipped"
-      flat
-      color="primary"
-      app
-    >
-      <v-btn @click="rightDrawer = !rightDrawer" color="white" icon><v-icon>mdi-menu</v-icon></v-btn>
-      <v-toolbar-title>
-        <nuxt-link class="text-decoration-none d-flex align-center justify-center" :to="localePath('/')">
-          <span class="white--text">app</span>
-        </nuxt-link></v-toolbar-title>
-      <v-btn
-        color="white"
-        icon
-        @click="loginDialog = true"
-        v-if="!$auth.loggedIn"
 
-      >
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
-      <profile-menu v-if="$auth.loggedIn" />
-      <v-spacer/>
-      <v-btn href="https://www.facebook.com/biljumlastore/" target="_blank" icon color="white">
-        <v-icon>mdi-facebook</v-icon>
-      </v-btn>
-      <v-btn href="https://www.instagram.com/biljumlastore/" target="_blank"  icon color="white">
-        <v-icon>mdi-instagram</v-icon>
-      </v-btn>
-    </v-app-bar> -->
-    <!--            <mega-menu v-if="$vuetify.breakpoint.lgAndUp" :title="menu.name" :items="menu.items" v-for="menu in menus"/>-->
-    <!--            <v-btn icon nuxt :to="localePath('/')"><v-icon>mdi-home</v-icon></v-btn>-->
-
-    <!--      <delivery />-->
-
-    <v-main style="margin-top: 60px">
+    <v-main>
       <toast-notification />
       <Nuxt />
     </v-main>
@@ -110,7 +77,6 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "بالجملة",
     };
   },
   computed: {

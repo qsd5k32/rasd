@@ -74,120 +74,13 @@
               @click="registerNow()"
               block
               class="white--text"
-              color="blue"
+              color="primary"
             >{{ $t('auth.register') }}
             </v-btn>
           </v-form>
-          <v-divider class="mt-4 mb-2"/>
         </v-col>
       </v-row>
-<!--      <v-stepper v-model="register">
-        <v-stepper-header>
-          <v-stepper-step :complete="register > 0" step="0">
-            {{ $t('sendCode') }}
-          </v-stepper-step>
-          <v-stepper-step :complete="register > 1" step="1">
-            {{ $t('verifyPhone') }}
-          </v-stepper-step>
-          <v-stepper-step :complete="register > 2" step="2">
-            {{ $t('completeRegisteration') }}
-          </v-stepper-step>
-        </v-stepper-header>
-        <v-stepper-items>
-          <v-stepper-content step="0">
-            <div>
-              <v-text-field
-                outlined
-                prepend-icon="mdi-phone"
-                :error-messages="errors.phone"
-                :label="$t('auth.phone')"
-                :rules="[
-                        (v) => !!v || $t('validation.required'),
-                        (v) =>
-                          /^(([{1}[0-9]{1,2}[\ ]{1}[0-9]{4}[\ ]{1}[0-9]{4})|([0]{1}[0-9]{1}[\ ]{1}[0-9]{4}[\ ]{1}[0-9]{4})|([0]{1}[0-9]{1}[\-]{1}[0-9]{4}[\-]{1}[0-9]{4})|([\(]{1}[0]{1}[0-9]{1}[\)]{1}[\ ]{1}[0-9]{4}([\ ]|[\-]){1}[0-9]{4})|([0-9]{4}([\ ]|[\-])?[0-9,3}[\ ]]{4})|([0]{1}[0-9]{3}[\ ]{1}[0-9]{3}[\ ]{1}[0-9]{3})|([0]{1}[0-9]{9})|([\(]{1}[0-9]{3}[\)]{1}[\ ]{1}[0-9]{3}[\-]{1}[0-9]{4})|([0-9]{3}([\/]|[\-]){1}[0-9]{3}[\-]{1}[0-9]{4})|([1]{1}[\-]?[0-9]{3}([\/]|[\-]){1}[0-9]{3}[\-]{1}[0-9]{4})|([1]{1}[0-9]{9}[0-9]?)|([0-9]{3}[\.]{1}[0-9]{3}[\.]{1}[0-9]{4})|([\(]{1}[0-9]{3}[\)]{1}[0-9]{3}([\.]|[\-]){1}[0-9]{4}(([\ ]?(x|ext|extension)?)([\ ]?[0-9]{3,4}))?)|([1]{1}[\(]{1}[0-9]{3}[\)]{1}[0-9]{3}([\-]){1}[0-9]{4})|([\+]{1}[1]{1}[\ ]{1}[0-9]{3}[\.]{1}[0-9]{3}[\-]{1}[0-9]{4})|([\+]{1}[1]{1}[\ ]?[\(]{1}[0-9]{3}[\)]{1}[0-9]{3}[\-]{1}[0-9]{4}))$/.test(
-                            v
-                          ) || $t('validation.phone')
-                      ]"
-                @change="errors.phone = []"
-                color="primary"
-                v-model="fields.phone"
-              />
-              <v-btn color="secondary" @click="sendCode" block>{{ $t('sendCode') }}</v-btn>
-            </div>
-          </v-stepper-content>
-          <v-stepper-content step="1">
-            <v-otp-input
-              v-model="fields.code"
-              length="6"
-              type="number"
-            ></v-otp-input>
-            <v-btn color="secondary" @click="verifyCode" block>{{ $t('verifyPhone') }}</v-btn>
-          </v-stepper-content>
-          <v-stepper-content step="2">
-            <div>
-              <v-row>
-                <v-col cols="12" md="12" sm="12" xs="12">
-                  <v-form v-model="valid">
-                    <v-text-field
-                      outlined
-                      :error-messages="errors.email"
-                      :label="$t('auth.email')"
-                      :rules="[
-                      (v) => !!v || $t('validation.required'),
-                      (v) => /.+@.+\..+/.test(v) || $t('validation.email')
-                    ]"
-                      @change="errors.email = []"
-                      :hint="$t('optional')"
-                      color="primary"
-                      prepend-icon="mdi-at"
-                      required
-                      type="email"
-                      v-model="fields.email"
-                      outlined
-                      v-validate="'required'"
-                    />
-                    <v-text-field
-                      :error-messages="errors.name"
-                      :hint="$t('optional')"
-                      :label="$t('auth.name')"
-                      @change="errors.name = []"
-                      color="primary"
-                      prepend-icon="mdi-account"
-                      v-model="fields.name"
-                      outlined
-                    />
-                    <v-text-field
-                      outlined
-                      :error-messages="errors.password"
-                      :label="$t('auth.password')"
-                      :rules="[(v) => !!v || $t('validation.required')]"
-                      @change="errors.password = []"
-                      color="primary"
-                      prepend-icon="mdi-lock"
-                      type="password"
-                      v-model="fields.password"
-                    />
-                    <a href="/page/term-of-use" target="_blank">{{ $t('terms_of_use') }}</a>
-                    <v-checkbox :label="$t('auth.agree')" :rules="[
-                      (v) => !!v || $t('validation.required'),
-                    ]" color="blue" v-model="agree"/>
-                    <v-btn
-                      :disabled="!valid"
-                      :loading="loading"
-                      @click="register()"
-                      block
-                      class="white&#45;&#45;text"
-                      color="blue"
-                    >{{ $t('auth.register') }}
-                    </v-btn>
-                  </v-form>
-                  <v-divider class="mt-4 mb-2"/>
-                </v-col>
-              </v-row>
-            </div>
-          </v-stepper-content>
-        </v-stepper-items>
-      </v-stepper>-->
+
 
     </v-card-text>
   </v-card>

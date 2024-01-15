@@ -8,9 +8,9 @@
   -->
 
 <template>
-  <v-container>
+  <v-container style="margin-top: 70px">
     <v-row align="center" justify="center">
-      <v-col class="mt-5 mb-5" cols="12" md="6" sm="8">
+      <v-col class="mt-5 mb-5" cols="12" lg="4" md="6" sm="8">
         <login-card />
       </v-col>
     </v-row>

@@ -20,7 +20,7 @@
            </thead>
            <tbody>
            <tr v-for="step in steps">
-             <td colspan="1">{{ step.id }}</td>
+             <td colspan="1">{{ step.rasid_case_id }}</td>
              <td>{{ step.start }}</td>
              <td>{{ step.end }}</td>
              <td>
@@ -65,6 +65,10 @@
 
                   <p>تاريغ : <span>{{ item.rasid_case.created_at }}</span></p>
                   <p>{{ item.date }}</p>
+                  <v-divider />
+                  <div class="amber--text">
+
+                  </div>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-slide-group
@@ -96,10 +100,7 @@
                     </p>
                   </div>
                 </v-col>
-                <v-col cols="12" md="12" v-if="item.step_status && item.step_status.id == 2">
-                  <v-divider />
-                  <v-btn small color="primary" block class="mt-2" @click="forward">انعاء</v-btn>
-                </v-col>
+
               </v-row>
             </v-col>
             <v-col cols="12" md="4">
@@ -180,38 +181,10 @@
               />
               <v-btn small @click="updateStep(item)" color="primary">تحديث</v-btn>
             </v-col>
-            <v-col cols="12" md="12">
-              <h3>الخطوات</h3>
-              <v-simple-table dense v-if="item.rasid_case.steps">
-                <template v-slot:default>
-                  <thead>
-                  <tr>
-                    <th class="">رقم الخطوة</th>
-                    <th class="">بداية</th>
-                    <th class="">نهاية</th>
-                    <th class="">ملحقات</th>
-                    <th class="">ملاحظة</th>
-                    <th class="">الحالة</th>
-                    <th>الإجراءات</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr v-for="step in item.rasid_case.steps" v-if="!step.is_first">
-                    <td>{{ step.id }}</td>
-                    <td>{{ step.start }}</td>
-                    <td>{{ step.end }}</td>
-                    <td>{{ step.media.length }}</td>
-                    <td>{{ step.note }}</td>
-                    <td><span v-if="step.step_status">{{ step.step_status.name }}</span></td>
-                    <td>
-                      <v-btn icon color="primary" @click="showStep(step)">
-                        <v-icon>mdi-eye</v-icon>
-                      </v-btn>
-                    </td>
-                  </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+
+            <v-col cols="12" md="12" v-if="item.step_status && item.step_status.id == 2">
+              <v-divider />
+              <v-btn small color="primary" block class="mt-2" @click="forward">انعاء</v-btn>
             </v-col>
           </v-row>
         </v-card-text>

@@ -101,8 +101,7 @@
                 console.log(res)
                 console.log(this.$auth)
                 console.log(this.$auth.user)
-                //this.$router.push('/')
-                window.location.reload()
+                this.$router.push('/')
               }).catch(e => {
               console.error(e)
               this.error = true

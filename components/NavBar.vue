@@ -1,39 +1,35 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar v-if="!$auth.loggedIn" flat absolute color="transparent" dark>
-      <v-app-bar-nav-icon
-        @click.stop="drawer = !drawer"
-        v-if="$vuetify.breakpoint.smAndDown"
-      ></v-app-bar-nav-icon>
-      <nuxt-link to="/">
-        <v-toolbar-title>
-          <v-img
-            src="/icon.png"
-            height="70px"
-            contain
-            class="mx-2"
-          ></v-img>
-        </v-toolbar-title>
-      </nuxt-link>
-      <v-spacer></v-spacer>
-      <template v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn class="text-capitalize" text to="/auth/login">{{ $t('auth.login') }}</v-btn>
-        <v-btn class="text-capitalize" text to="/auth/register">{{ $t('auth.register')}}</v-btn>
-      </template>
+    <v-app-bar fixed flat absolute color="transparent" dark>
+      <change-language />
+      <v-spacer />
+      <v-menu offset-y v-if="$auth.loggedIn">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            text
+            class="text-capitalize"
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-menu-down</v-icon>
+            {{ $auth.user.name }}
+          </v-btn>
+          <span class="mx-auto" v-if="$auth.user.user_title">{{  $auth.user.user_title.name }}</span>
+        </template>
+        <v-list dense>
+          <v-list-item
+            class="text-center"
+            @click="logout"
+          >
+            <span class="mx-auto">Logout<v-icon>mdi-logout</v-icon></span>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
-    <!-- Navigation Drawer for smaller screens -->
-    <v-navigation-drawer v-model="drawer" app temporary>
-      <v-list>
-        <v-list-item link to="/auth/login">
-          <v-list-item-title>Login</v-list-item-title>
-        </v-list-item>
-        <v-list-item link to="/auth/register">
-          <v-list-item-title>Register</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
     <v-bottom-navigation
       v-if="$auth.loggedIn"
       v-model="bottomNav"
@@ -42,21 +38,18 @@
       >
       <v-btn
         icon
-        to="/"
+        :to="localePath('/')"
         >
         <v-icon>mdi-home</v-icon>
       </v-btn>
       <v-btn
         icon
+        nuxt
+        :to="localePath('/steps')"
         >
         <v-icon>mdi-clipboard</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        to="/profile"
-        >
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
+
 
     </v-bottom-navigation>
     <!-- Main Content -->
@@ -68,5 +61,11 @@ export default {
   data: () => ({
     drawer: false,
   }),
+  methods: {
+    logout() {
+      this.$auth.logout();
+      this.$router.push("/");
+    },
+  },
 };
 </script>

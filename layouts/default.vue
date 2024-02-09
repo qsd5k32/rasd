@@ -3,6 +3,25 @@
     <NavBar />
 
     <v-main>
+      <v-dialog style="overflow: hidden" fullscreen v-model="splashScreen">
+        <v-card class="pa-0">
+          <v-row style="height: 100vh" justify="center" align-content="center">
+            <v-col>
+              <v-img
+                class="mx-auto d-block"
+                height="100"
+                width="100"
+                src="/icon.png"
+                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              >
+              </v-img>
+              <h1 class="display-2 text-center font-weight-bold mb-3">{{ $t('welcomeToRasd') }}</h1>
+              <p class="subtitle-1 text-center white&#45;&#45;text">{{ $t('discoverOurWorldclassServicesAndInnovativeSolution') }}</p>
+              <p class="text-center">Version 1.2</p>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
       <toast-notification />
       <Nuxt />
     </v-main>
@@ -50,6 +69,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { splashScreen } from "@/store/splash";
 
 export default {
   name: "DefaultLayout",
@@ -59,32 +79,27 @@ export default {
       drawer: false,
       loginDialog: false,
       registerCard: false,
-      shopping_cart: false,
       fixed: false,
       query: null,
-      items: [
-        {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
-        },
-      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
     };
   },
   computed: {
-    ...mapGetters({}),
+    ...mapGetters({
+      splashScreen: 'splash/getData',
+    }),
   },
-  mounted() {},
+  mounted() {
+    setInterval(() => {
+      this.hideSplashScreen();
+    }, 1500);
+  },
   methods: {
-    ...mapActions({}),
+    ...mapActions({
+      hideSplashScreen: 'splash/hideSplashScreen',
+    }),
     search() {
       this.$router.push(this.localePath("/search?query=" + this.query));
     },

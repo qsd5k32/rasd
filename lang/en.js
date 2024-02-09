@@ -279,6 +279,10 @@ export default {
   send2: 'Send',
 
   notes: 'Notes',
+  allowCameraAccess: 'Allow Camera Access',
+  allowLocationAccess: 'Allow Location Access',
+  number: 'number: {id}',
+    description2: 'description'
 
 
 }

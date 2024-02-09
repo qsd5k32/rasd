@@ -48,6 +48,10 @@ export default {
     '@nuxtjs/i18n',
     'cookie-universal-nuxt',
     '@nuxtjs/auth-next',
+    ['nuxt-gmaps', {
+      key: 'AIzaSyA-IQyk0w2hXbtn9y2vRwwxo4noZP5jRrA',
+      //you can use libraries: ['places']
+    }]
   ],
   i18n: {
     baseUrl: '/',

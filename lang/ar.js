@@ -274,11 +274,15 @@ export default {
   "categories": "الاقسام",
   priceRange: 'السعر',
 
-  welcomeToRasd: 'مرحبًا بك في رصد',
-  discoverOurWorldclassServicesAndInnovativeSolution: 'اكتشف خدماتنا العالمية المستوى وحلولنا المبتكرة.',
+  welcomeToRasd: ' راصد وسيللتك للرصد',
+  discoverOurWorldclassServicesAndInnovativeSolution: 'نظام رصد المخالفات في جامعة تبوك',
   photoOptions: 'خيارات الصورة',
   retake: 'إعادة التقاط',
   send2: 'إرسال',
 
   notes: 'ملاحظات',
+
+  allowCameraAccess: 'السماح بالوصول إلى الكاميرا',
+  allowLocationAccess: 'السماح بالوصول إلى الموقع',
+  number: 'رقم : {id}'
 }

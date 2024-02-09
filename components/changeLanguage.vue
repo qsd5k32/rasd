@@ -2,8 +2,8 @@
   <div>
     <v-select v-if="select" class="mt-4" :items="languages" v-model="language" @change="changeLanguage" item-text="name" item-value="code" outlined :label="$t('language')"/>
     <div v-else>
-      <v-btn text v-if="language === 'ar'" @click="setLang('en')" class="font-weight-bold">EN</v-btn>
-      <v-btn text v-if="language === 'en'" @click="setLang('ar')"><v-icon>mdi-abjad-arabic</v-icon></v-btn>
+      <v-btn dark icon v-if="language === 'ar'" @click="setLang('en')" class="font-weight-bold">EN</v-btn>
+      <v-btn dark icon v-if="language === 'en'" @click="setLang('ar')"><v-icon>mdi-abjad-arabic</v-icon></v-btn>
     </div>
   </div>
 </template>
@@ -38,11 +38,6 @@ export default {
       this.$i18n.setLocale(this.language)
       this.$cookies.set('lang',this.language)
       this.rtlSwitch()
-      setInterval(() => {
-        window.location.reload()
-      },500)
-
-
     },
     rtlSwitch()
     {

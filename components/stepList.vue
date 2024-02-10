@@ -4,12 +4,12 @@
   <div class="mt-12">
    <div v-if="$auth.loggedIn">
      <v-container>
-       <h3 class="mt-12">الخطوات</h3>
+       <h3 class="mt-12">الحالات</h3>
        <v-simple-table class="mt-6" dense v-if="steps">
          <template v-slot:default>
            <thead>
            <tr>
-             <th class="">رقم الخطوة</th>
+             <th class="">رقم الحالة</th>
              <th class="">بداية</th>
              <th class="">نهاية</th>
              <th class="">ملحقات</th>
@@ -20,7 +20,9 @@
            </thead>
            <tbody>
            <tr v-for="step in steps">
-             <td colspan="1">{{ step.rasid_case_id }}</td>
+             <td colspan="1">
+               <span v-if="step.rasid_case">{{ step.rasid_case.id }}</span>
+             </td>
              <td>{{ step.start }}</td>
              <td>{{ step.end }}</td>
              <td>
@@ -59,16 +61,13 @@
                   <p>رقم الحالة : {{ item.rasid_case.id }}</p>
                   <p> عنوان الحالة : <span>{{ item.rasid_case.case_name }}</span></p>
 
-                  <p>تصنيف : <span v-if="item.rasid_case.category && item.rasid_case.category.parent">{{ item.rasid_case.category.parent.name }}</span></p>
-
-                  <p>تصنيف فرعي: <span v-if="item.rasid_case.category">{{ item.rasid_case.category.name }}</span></p>
-
+                  <p>
+                    تصنيف : <span v-if="item.rasid_case.category && item.rasid_case.category.parent">{{ item.rasid_case.category.parent.name }}</span>
+                    /
+                    تصنيف فرعي: <span v-if="item.rasid_case.category">{{ item.rasid_case.category.name }}</span>
+                  </p>
                   <p>تاريغ : <span>{{ item.rasid_case.created_at }}</span></p>
                   <p>{{ item.date }}</p>
-                  <v-divider />
-                  <div class="amber--text">
-
-                  </div>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-slide-group
@@ -88,7 +87,18 @@
                         height="60"
                         width="60"
                       >
-                        <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path"></v-img>
+                        <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path">
+                        </v-img>
+                        <video v-if="media.type == 'video'" style="height:60px;width:60px;max-height: 60px;max-width: 60px" :src="media.path"></video>
+
+                        <v-overlay
+                          absolute
+                        >
+                          <v-icon v-if="media.type == 'image'">mdi-image</v-icon>
+                          <v-icon v-if="media.type == 'video'">mdi-video</v-icon>
+                          <v-icon v-if="media.type == 'text'">mdi-format-text</v-icon>
+                          <v-icon v-if="media.type == 'audio'">mdi-headset</v-icon>
+                        </v-overlay>
                       </v-card>
                     </v-slide-item>
                   </v-slide-group>
@@ -100,7 +110,72 @@
                     </p>
                   </div>
                 </v-col>
+                <v-col>
+                  <h3>الخطوات</h3>
+                  <v-simple-table dense v-if="item.rasid_case.steps">
+                    <template v-slot:default>
+                      <thead>
+                      <tr>
+                        <th class="">رقم الخطوة</th>
+                        <th class="">بداية</th>
+                        <th class="">نهاية</th>
+                        <th class="">ملحقات</th>
+                        <th class="">ملاحظة</th>
+                        <th class="">الحالة</th>
+                        <th>الإجراءات</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr v-for="step in item.rasid_case.steps" v-if="!step.is_first">
+                        <td>{{ step.id }}</td>
+                        <td>{{ step.start }}</td>
+                        <td>{{ step.end }}</td>
+                        <td>{{ step.media.length }}</td>
+                        <td>{{ step.note }}</td>
+                        <td><span v-if="step.step_status">{{ step.step_status.name }}</span></td>
+                        <td>
+                          <v-btn icon color="primary" @click="showStep(step)">
+                            <v-icon>mdi-eye</v-icon>
+                          </v-btn>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <v-divider />
+                  <v-slide-group
+                    v-if="item.media"
+                    class="pa-1"
+                    mandatory
+                    show-arrows
+                  >
+                    <v-slide-item
+                      v-for="media in item.media"
+                      v-slot="{ active, toggle }"
+                    >
+                      <v-card
+                        @click="openShowImage(media,item.media)"
+                        :color="active ? 'primary' : 'grey lighten-1'"
+                        class="ma-4"
+                        height="60"
+                        width="60"
+                      >
+                        <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path">
+                        </v-img>
+                        <video v-if="media.type == 'video'" style="height:60px;width:60px;max-height: 60px;max-width: 60px" :src="media.path"></video>
 
+                        <v-overlay
+                          absolute
+                        >
+                          <v-icon v-if="media.type == 'image'">mdi-image</v-icon>
+                          <v-icon v-if="media.type == 'video'">mdi-video</v-icon>
+                          <v-icon v-if="media.type == 'text'">mdi-format-text</v-icon>
+                          <v-icon v-if="media.type == 'audio'">mdi-headset</v-icon>
+                        </v-overlay>
+                      </v-card>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-col>
               </v-row>
             </v-col>
             <v-col cols="12" md="4">
@@ -219,7 +294,18 @@
                     class="ma-4"
                     height="60"
                     width="60">
-                    <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path"></v-img>
+                    <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path">
+                    </v-img>
+                    <video v-if="media.type == 'video'" style="height:60px;width:60px;max-height: 60px;max-width: 60px" :src="media.path"></video>
+
+                    <v-overlay
+                      absolute
+                    >
+                      <v-icon v-if="media.type == 'image'">mdi-image</v-icon>
+                      <v-icon v-if="media.type == 'video'">mdi-video</v-icon>
+                      <v-icon v-if="media.type == 'text'">mdi-format-text</v-icon>
+                      <v-icon v-if="media.type == 'audio'">mdi-headset</v-icon>
+                    </v-overlay>
                   </v-card>
                 </v-slide-item>
               </v-slide-group>
@@ -239,7 +325,8 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-actions>
-        <v-img class="mx-auto" v-if="currentMedia" max-width="250px" :src="currentMedia.path"></v-img>
+        <v-img class="mx-auto" v-if="currentMedia && currentMedia.type == 'image'" max-width="250px" :src="currentMedia.path"></v-img>
+        <video  v-if="currentMedia && currentMedia.type == 'video'" style="height:400px;" class="mx-auto d-block" controls :src="currentMedia.path"></video>
         <v-slide-group
           v-if="medias"
           class="pa-1"
@@ -253,14 +340,23 @@
             <v-card
               :color="active ? 'primary' : 'grey lighten-1'"
               class="ma-4"
-              height="100"
-              width="100"
+              height="60"
+              width="60"
               @click="currentMedia = media"
             >
 
-              <v-img v-if="media.type == 'image'" height="200" width="100" :src="media.path">
-
+              <v-img v-if="media.type == 'image'" height="60" width="60" :src="media.path">
               </v-img>
+              <video v-if="media.type == 'video'" style="height:60px;width:60px;max-height: 60px;max-width: 60px" :src="media.path"></video>
+
+              <v-overlay
+                absolute
+              >
+                <v-icon v-if="media.type == 'image'">mdi-image</v-icon>
+                <v-icon v-if="media.type == 'video'">mdi-video</v-icon>
+                <v-icon v-if="media.type == 'text'">mdi-format-text</v-icon>
+                <v-icon v-if="media.type == 'audio'">mdi-headset</v-icon>
+              </v-overlay>
             </v-card>
           </v-slide-item>
         </v-slide-group>

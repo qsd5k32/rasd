@@ -91,12 +91,12 @@
                       </v-slide-item>
                     </v-slide-group>
                     <v-divider />
-                    <div class="mt-2" v-if="item.first_step">
-                      <p v-for="note in item.first_step.notes">
+                    <ul class="mt-2" v-if="item.first_step">
+                      <li v-for="note in item.first_step.notes">
                         <span>ملاحظة {{ note.id }} : </span>
                         <span>{{ note.note }}</span>
-                      </p>
-                    </div>
+                      </li>
+                    </ul>
                   </v-col>
                   <v-col v-if="item.case_status && item.case_status.id == 1" cols="12" md="12">
                     <v-divider />

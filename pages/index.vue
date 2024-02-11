@@ -12,8 +12,11 @@
         <div v-if="$auth.user.user_role_id == 2">
           <cases-list />
         </div>
-        <div v-if="$auth.user.user_role_id > 2">
+        <div v-if="$auth.user.user_role_id == 2">
           <step-list />
+        </div>
+        <div v-if="$auth.user.user_role_id == 5">
+          <daily-report />
         </div>
     </div>
   </div>

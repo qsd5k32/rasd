@@ -3,7 +3,7 @@
     <NavBar />
 
     <v-main>
-      <v-dialog style="overflow: hidden" fullscreen v-model="splashScreen">
+      <v-dialog style="overflow: hidden;z-index: 1000" fullscreen v-model="splashScreen">
         <v-card class="pa-0">
           <v-row style="height: 100vh" justify="center" align-content="center">
             <v-col>
@@ -12,12 +12,11 @@
                 height="100"
                 width="100"
                 src="/icon.png"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               >
               </v-img>
               <h1 class="display-2 text-center font-weight-bold mb-3">{{ $t('welcomeToRasd') }}</h1>
               <p class="subtitle-1 text-center white&#45;&#45;text">{{ $t('discoverOurWorldclassServicesAndInnovativeSolution') }}</p>
-              <p class="text-center">Version 1.2</p>
+              <p class="text-center">Version 2.8</p>
             </v-col>
           </v-row>
         </v-card>

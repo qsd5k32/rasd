@@ -28,22 +28,32 @@
       </div>
       <div style="position:absolute; bottom: 10px;width: 100vw;">
         <v-chip-group @change="getSubCategories" v-model="categoryParent" class="mb-4">
-          <v-chip filter :value="category.id" v-for="category in categories" outlined color="primary">{{ category.name }}</v-chip>
+          <v-chip filter :value="category.id" v-for="category in categories" color="primary">{{ category.name }}</v-chip>
         </v-chip-group>
         <v-chip-group v-model="category_id" class="mb-4" v-if="categoryParent">
-          <v-chip filter :value="subCategory.id" v-for="subCategory in subCategories" outlined color="amber">{{ subCategory.name }}</v-chip>
+          <v-chip filter :value="subCategory.id" v-for="subCategory in subCategories"
+                  color="amber">{{ subCategory.name }}</v-chip>
         </v-chip-group>
         <v-layout class="mb-5">
           <v-spacer/>
-          <v-btn fab :disabled="recording || recordingVideo" :icon="rasdType != 'text'" :outlined="rasdType != 'text'" @click="rasdType = 'text'">
+          <v-btn fab :disabled="recording || recordingVideo"
+                 :icon="rasdType != 'text'"
+                 :outlined="rasdType != 'text'"
+                 @click="switchToText">
             <v-icon>mdi-format-text</v-icon>
           </v-btn>
           <v-spacer/>
-          <v-btn fab :disabled="recording || recordingVideo" :icon="rasdType != 'camera'" :outlined="rasdType != 'camera'" @click="rasdType = 'camera'">
+          <v-btn fab :disabled="recording || recordingVideo"
+                 :icon="rasdType != 'camera'"
+                 :outlined="rasdType != 'camera'"
+                 @click="switchToCamera">
             <v-icon>mdi-camera</v-icon>
           </v-btn>
           <v-spacer/>
-          <v-btn  fab :disabled="recording || recordingVideo" :icon="rasdType != 'videoRecording'" :outlined="rasdType != 'videoRecording'" @click="rasdType = 'videoRecording'">
+          <v-btn  fab :disabled="recording || recordingVideo"
+                  :icon="rasdType != 'videoRecording'"
+                  :outlined="rasdType != 'videoRecording'"
+                  @click="switchToVideoRecording">
             <v-icon>mdi-video</v-icon>
           </v-btn>
           <v-spacer/>
@@ -137,7 +147,7 @@
             </v-btn>
           </div>
           <v-spacer/>
-          <v-btn @click="showPhotoOptions = true" color="primary" small>
+          <v-btn @click="showPhotoOptions = true" color="primary">
             ارسال
           </v-btn>
         </v-layout>
@@ -328,6 +338,7 @@ export default {
       currentMedia: null,
       medias: [],
       showImage: false,
+      audioActive: false,
       photoData: null,
       category_id: null,
       categoryParent: null,
@@ -395,7 +406,24 @@ export default {
         console.error('Error accessing media devices.', err);
       }
     },
-
+    switchToText()
+    {
+      this.audioActive = false;
+      this.rasdType = 'text';
+      this.cameraInit();
+    },
+    switchToCamera()
+    {
+      this.audioActive = false;
+      this.rasdType = 'camera';
+      this.cameraInit();
+    },
+    switchToVideoRecording()
+    {
+      this.audioActive = false;
+      this.rasdType = 'videoRecording';
+      this.cameraInit();
+    },
     switchRasdType(rasdType = 'camera')
     {
       this.rasdType = rasdType;
@@ -594,7 +622,7 @@ export default {
             facingMode: {
               exact: this.cameraExact
             }
-          }, audio: true })
+          }, audio: this.audioActive })
         .then((stream) => {
           this.mediaStream = stream;
           this.liveVideo.srcObject = stream;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- App Bar -->
-    <v-app-bar fixed flat absolute color="transparent" dark>
+    <v-app-bar style="z-index: 999" fixed flat absolute color="transparent" dark>
       <change-language />
       <v-spacer />
       <v-menu offset-y v-if="$auth.loggedIn">
@@ -10,14 +10,15 @@
             text
             class="text-capitalize"
             color="primary"
-            dark
             v-bind="attrs"
             v-on="on"
           >
             <v-icon>mdi-menu-down</v-icon>
             {{ $auth.user.name }}
           </v-btn>
-          <span class="mx-auto" v-if="$auth.user.user_title">{{  $auth.user.user_title.name }}</span>
+          <span class="mx-auto black--text" v-if="$auth.user.user_title">{{  $auth.user.user_title.name }}</span>
+          <span class="mx-auto black--text" v-if="$auth.user.company">/{{  $auth.user.company.name }}</span>
+          <span class="mx-auto black--text" v-if="$auth.user.company">/{{  $auth.user.company.company_type.name }}</span>
         </template>
         <v-list dense>
           <v-list-item

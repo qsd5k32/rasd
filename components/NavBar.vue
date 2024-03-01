@@ -16,11 +16,17 @@
             <v-icon>mdi-menu-down</v-icon>
             {{ $auth.user.name }}
           </v-btn>
-          <span class="mx-auto black--text" v-if="$auth.user.user_title">{{  $auth.user.user_title.name }}</span>
-          <span class="mx-auto black--text" v-if="$auth.user.company">/{{  $auth.user.company.name }}</span>
-          <span class="mx-auto black--text" v-if="$auth.user.company">/{{  $auth.user.company.company_type.name }}</span>
+          <span class="mx-1 black--text" v-if="$auth.user.user_title">{{  $auth.user.user_title.name }}</span>
+          <v-chip outlined label color="primary" class="mx-1" v-if="$auth.user.company">{{  $auth.user.company.name }}</v-chip>
+          <span class="mx-1 black--text" v-if="$auth.user.company">{{  $auth.user.company.company_type.name }}</span>
         </template>
         <v-list dense>
+          <v-list-item>
+            <v-list-item-title>{{ $t("profile") }}</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="mx-1 black--text" v-if="$auth.user.user_title">user title:{{  $auth.user.user_title.name }}</v-list-item>
+          <v-list-item class="mx-1 black--text" v-if="$auth.user.user_role">user role:{{  $auth.user.user_role.name }}</v-list-item>
+          <v-list-item class="mx-1 black--text" v-if="$auth.user.company">company:{{  $auth.user.company.name }}</v-list-item>
           <v-list-item
             class="text-center"
             @click="logout"

@@ -119,11 +119,8 @@
 
         <v-card v-if="dailyReportChoosed">
           <v-card-title>قائمة الفحوصات في التقرير اليومي</v-card-title>
-          <div class="pt-12"></div>
+          <div class="pt-8"></div>
           <v-layout class="d-print-none">
-            <v-btn icon color="blue" @click="printPage">
-              <v-icon>mdi-printer</v-icon>
-            </v-btn>
             <v-spacer/>
             <v-btn icon @click="closeVisitResult">
               <v-icon>mdi-close</v-icon>
@@ -161,39 +158,11 @@
 
                 <v-divider class="mt-2 mb-2"></v-divider>
               </v-col>
-              <v-col cols="12" md="12" class="d-print-none" v-if="!dailyReportChoosed.is_done">
-                <v-form>
-                  <v-layout>
-                    <v-autocomplete :items="disciplines" item-text="name" @change="getSubDisciplines" item-value="id" v-model="report.discipline_id" dense
-                                    label="المجلات" outlined/>
-                    <div class="mx-1"></div>
-                    <v-autocomplete :items="sub_disciplines" item-text="name" item-value="id" v-model="report.sub_discipline_id" dense
-                                    label="المجلات الفرعية" outlined/>
-                    <div class="mx-1"></div>
 
-
-                    <v-autocomplete :items="visit_status" item-text="name.en" item-value="id" v-model="report.visit_status_id" dense
-                                    label="الحالة" outlined/>
-                  </v-layout>
-                  <v-layout>
-                    <v-autocomplete :items="spaces" item-text="name" item-value="id" @change="getRooms" v-model="report.space_id" dense
-                                    label="المساحة" outlined/>
-                    <div class="mx-1"></div>
-                    <v-autocomplete :items="rooms" item-text="name" item-value="id" v-model="report.room_id" dense
-                                    label="الغرفة" outlined/>
-                  </v-layout>
-                  <v-textarea dense rows="2" outlined label="الشرح" v-model="report.description"/>
-                  <v-layout class="mb-3">
-                    <v-spacer/>
-                    <v-btn color="primary" @click="storeVisitResult">تخزين الفحص</v-btn>
-                    <v-spacer/>
-                  </v-layout>
-                </v-form>
-              </v-col>
 
             </v-row>
-
-            <v-simple-table dense>
+            <v-divider class="mt-2 mb-2"></v-divider>
+            <v-simple-table dense class="mt-4">
               <template v-slot:default>
                 <thead>
                 <tr>
@@ -219,7 +188,7 @@
                       <span v-if="visitResult.visit_status">{{ visitResult.visit_status.name }}</span>
                     </td>
                     <td>
-                      <span v-if="visitResult.space">{{ visitResult.space.name.en }}</span>
+                      <span v-if="visitResult.space">{{ visitResult.space.name }}</span>
                     </td>
                     <td>
                       <span v-if="visitResult.room">{{ visitResult.room.name }}</span>
@@ -240,12 +209,54 @@
               </template>
             </v-simple-table>
             <v-layout class="d-print-none mt-5">
-              <v-btn color="primary" v-if="!dailyReportChoosed.is_done" @click="openConfirmFinishDialog">اقفال</v-btn>
+              <v-btn color="red" dark v-if="!dailyReportChoosed.is_done" @click="openConfirmFinishDialog">اقفال</v-btn>
+              <v-btn icon color="blue" class="mx-2" @click="printPage">
+                <v-icon>mdi-printer</v-icon>
+              </v-btn>
+              <v-btn color="blue" dark @click="addVisitResult = true">اضافة فحص</v-btn>
               <v-spacer/>
               <v-btn color="primary" @click="closeVisitResult">رجوع بدون اقفال</v-btn>
             </v-layout>
           </v-card-text>
+          <v-dialog v-model="addVisitResult" v-if="dailyReportChoosed">
+            <v-card>
+              <v-card-title>اضافة فحص</v-card-title>
+              <v-card-text>
+                <div class="d-print-none" v-if="!dailyReportChoosed.is_done">
+                  <v-form>
+                    <v-layout>
+                      <v-autocomplete :items="disciplines" item-text="name" @change="getSubDisciplines" item-value="id" v-model="report.discipline_id" dense
+                                      label="المجلات" outlined/>
+                      <div class="mx-1"></div>
+                      <v-autocomplete :items="sub_disciplines" item-text="name" item-value="id" v-model="report.sub_discipline_id" dense
+                                      label="المجلات الفرعية" outlined/>
+                      <div class="mx-1"></div>
+
+
+                      <v-autocomplete :items="visit_status" item-text="name" item-value="id" v-model="report.visit_status_id" dense
+                                      label="الحالة" outlined/>
+                    </v-layout>
+                    <v-layout>
+                      <v-autocomplete :items="spaces" item-text="name" item-value="id" @change="getRooms" v-model="report.space_id" dense
+                                      label="المساحة" outlined/>
+                      <div class="mx-1"></div>
+                      <v-autocomplete :items="rooms" item-text="name" item-value="id" v-model="report.room_id" dense
+                                      label="الغرفة" outlined/>
+
+                    </v-layout>
+                    <v-textarea dense rows="2" outlined label="الشرح" v-model="report.description"/>
+                    <v-layout class="mb-5">
+                      <v-spacer/>
+                      <v-btn color="primary" @click="storeVisitResult">تخزين الفحص</v-btn>
+                      <v-spacer/>
+                    </v-layout>
+                  </v-form>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
         </v-card>
+
         <v-dialog v-model="editVisitResult">
           <v-card v-if="!confirmFinishDialog">
             <v-layout>
@@ -272,7 +283,7 @@
                                       label="الحالة" outlined/>
                     </v-layout>
                     <v-layout>
-                      <v-autocomplete :items="spaces" item-text="name[en]" item-value="id" @change="getRooms" v-model="visitResultForm.space_id" dense
+                      <v-autocomplete :items="spaces" item-text="name" item-value="id" @change="getRooms" v-model="visitResultForm.space_id" dense
                                       label="المساحة" outlined/>
                       <div class="mx-1"></div>
                       <v-autocomplete :items="rooms" item-text="name" item-value="id" v-model="visitResultForm.room_id" dense
@@ -313,6 +324,7 @@ export default {
     return {
       visitResultDialog:false,
       editVisitResult:false,
+      addVisitResult: false,
       createReportDialog: false,
       disciplines: [],
       sub_disciplines: [],
@@ -426,6 +438,7 @@ export default {
           description: null,
           daily_report_id: null
         }
+        this.addVisitResult = false
       });
     },
     finishReport(report) {

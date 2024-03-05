@@ -19,7 +19,7 @@
                               label="المناوبة" outlined/>
             </v-layout>
 
-            <v-text-field type="date" dense v-model="report.from" label="تاريخ" outlined/>
+            <v-text-field type="date" dense  v-model="report.from" label="تاريخ" outlined/>
             <v-text-field type="time" dense v-model="report.from_time" label="من" outlined/>
             <v-text-field type="time" dense v-model="report.to_time" label="الي" outlined/>
             <v-btn color="primary" block dark class="mb-2" @click="storeReport">إضافة</v-btn>
@@ -39,7 +39,7 @@
               </span>
           </h3>
 
-          <v-btn class="mt-4 mb-4" color="primary" @click="createReportDialog = true">إضافة تقرير يومي</v-btn>
+          <v-btn class="mt-4 mb-4" color="primary" @click="openCreateDialog">إضافة تقرير يومي</v-btn>
           <v-layout wrap>
             <v-autocomplete :items="buildings" item-text="name" item-value="id" v-model="reportFilter.building_id" dense
                             label="مبنئ" outlined/>
@@ -356,8 +356,8 @@ export default {
         sub_discipline_id: null,
         visit_status_id: null,
         work_shift_id: null,
-        from:null,
-        to:null,
+        from: new Date(),
+        to:new Date(),
         description: null,
         from_time: null,
         to_time: null,
@@ -375,12 +375,34 @@ export default {
     this.getWorkShifts();
     this.getBuildings();
     this.getReport();
+    this.getWorkShiftNow()
   },
   methods: {
+    getWorkShiftNow(){
+      this.$axios.get('work_shift_now').then(response => {
+        this.report.work_shift_id = response.data.data.id
+        console.log(response.data.data)
+      });
+    },
     getSpaces(building){
       this.$axios.get('spaces/'+building.id).then(response => {
         this.spaces = response.data.data;
       });
+    },
+    openCreateDialog() {
+      this.createReportDialog = true
+      this.report = {
+        daily_report_id: null,
+        discipline_id: null,
+        visit_status_id: null,
+        work_shift_id: null,
+        from: new Date().toISOString().substring(0, 10),
+        to:null,
+        description: null,
+        from_time: null,
+        to_time: null,
+        building_id: null
+      }
     },
     getRooms(){
       if (this.report.space_id == null) return

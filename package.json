@@ -15,6 +15,8 @@
     "@nuxtjs/pwa": "^3.3.5",
     "cookie-universal-nuxt": "^2.2.2",
     "core-js": "^3.25.3",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
     "nuxt": "^2.15.8",
     "nuxt-gmaps": "^1.2.10",
     "vue": "^2.7.10",

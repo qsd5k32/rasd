@@ -15,7 +15,7 @@
               <v-autocomplete :items="buildings" item-text="name" item-value="id" v-model="report.building_id" dense
                               label="مبنئ" outlined/>
               <div class="mx-1"></div>
-              <v-autocomplete :items="work_shifts" item-text="name" item-value="id" v-model="report.work_shift_id" dense
+              <v-autocomplete @change="checkDate" :items="work_shifts" item-text="name" item-value="id" v-model="report.work_shift_id" dense
                               label="المناوبة" outlined/>
             </v-layout>
 
@@ -127,6 +127,7 @@
             </v-btn>
           </v-layout>
           <v-card-text>
+            <h4 class="red--text mb-2" v-if="inTime">  اخر اجل للاقفال سينتهي بعد {{ countDown }}</h4>
             <v-row>
               <v-col cols="12" md="12" style="font-weight: bold">
                 <span><span>التاريخ:</span>
@@ -209,7 +210,7 @@
               </template>
             </v-simple-table>
             <v-layout class="d-print-none mt-5">
-              <v-btn color="red" dark v-if="!dailyReportChoosed.is_done" @click="openConfirmFinishDialog">اقفال</v-btn>
+              <v-btn color="red" class="white--text" v-if="!dailyReportChoosed.is_done" :disabled="!inTime" @click="openConfirmFinishDialog">اقفال</v-btn>
               <v-btn icon color="blue" class="mx-2" @click="printPage">
                 <v-icon>mdi-printer</v-icon>
               </v-btn>
@@ -220,7 +221,12 @@
           </v-card-text>
           <v-dialog v-model="addVisitResult" v-if="dailyReportChoosed">
             <v-card>
-              <v-card-title>اضافة فحص</v-card-title>
+              <v-card-title>اضافة فحص
+              <v-spacer/>
+              <v-btn icon @click="addVisitResult = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+              </v-card-title>
               <v-card-text>
                 <div class="d-print-none" v-if="!dailyReportChoosed.is_done">
                   <v-form>
@@ -309,7 +315,7 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="red" dark @click="finishReport(dailyReportChoosed)">نعم</v-btn>
-              <v-btn color="primary" @click="confirmFinishDialog = false">لا</v-btn>
+              <v-btn color="primary" @click="editVisitResult = false">لا</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -319,9 +325,14 @@
 </template>
 
 <script>
+import moment from "moment";
+import 'moment-timezone';
+
 export default {
   data() {
     return {
+      inTime: false,
+      countDown: null,
       visitResultDialog:false,
       editVisitResult:false,
       addVisitResult: false,
@@ -378,6 +389,48 @@ export default {
     this.getWorkShiftNow()
   },
   methods: {
+    CountDown(toTime)
+    {
+      let now = moment().tz('Asia/Riyadh').format('YYYY-MM-DD HH:mm')
+      // get difference between now and toTime
+      let diff = moment.duration(moment(toTime).diff(moment(now)))
+      // get hours
+      let hours = diff.hours()
+      // get minutes
+      let minutes = diff.minutes()
+      // get seconds
+      let seconds = diff.seconds()
+      // set count down
+      this.countDown = hours + ':' + minutes
+      // set interval every second
+      setInterval(() => {
+        // get now time
+        let now = moment().tz('Asia/Riyadh').format('YYYY-MM-DD HH:mm')
+        // get difference between now and toTime
+        let diff = moment.duration(moment(toTime).diff(moment(now)))
+        // get hours
+        let hours = diff.hours()
+        // get minutes
+        let minutes = diff.minutes()
+        // get seconds
+        let seconds = diff.seconds()
+        // set count down
+        this.countDown = hours + ':' + minutes
+        this.checkIfInTime()
+      }, 1000)
+    },
+    checkDate()
+    {
+      let workshiftId = this.report.work_shift_id
+
+      // get workshift
+      this.work_shifts.forEach((workshiftItem) => {
+        if (workshiftItem.id == workshiftId) {
+          this.report.from_time = workshiftItem.start_time
+          this.report.to_time = workshiftItem.time_after
+        }
+      })
+    },
     getWorkShiftNow(){
       this.$axios.get('work_shift_now').then(response => {
         this.report.work_shift_id = response.data.data.id
@@ -467,6 +520,8 @@ export default {
       this.$axios.post('/daily-reports/finish/' + report.id).then(response => {
         console.log(response);
         //this.getReport();
+        // close dialog
+        this.confirmFinishDialog = false
         this.dailyReportChoosed.is_done = true
       });
     },
@@ -497,14 +552,35 @@ export default {
       }
 
     },
+    checkIfInTime()
+    {
+      let todayStartTime = moment(this.dailyReportChoosed.work_shift.today_start_time).format('YYYY-MM-DD HH:mm')
+
+      let todayAfterTime = moment(this.dailyReportChoosed.work_shift.today_after_time).format('YYYY-MM-DD HH:mm')
+      let todayNow = moment().tz('Asia/Riyadh').format('YYYY-MM-DD HH:mm')
+      let CheckIfIsBetween = moment(todayNow).isBetween(todayStartTime, todayAfterTime)
+
+      if (CheckIfIsBetween){
+        console.log('in time')
+        this.inTime = true;
+      } else {
+        this.inTime = false
+
+      }
+    },
     openVisitResult(report){
       this.dailyReportChoosed = report
       this.visitResultDialog = true
       this.getSpaces(this.dailyReportChoosed.building)
+      console.log(this.dailyReportChoosed.work_shift)
+      console.log()
+      this.checkIfInTime()
+      this.CountDown(this.dailyReportChoosed.work_shift.today_after_time)
     },
     closeVisitResult(){
       this.visitResultDialog = false
       this.dailyReportChoosed = null
+      this.inTime = false
     },
     getReport() {
       this.$axios.get('/daily_report',{params : this.reportFilter}).then(response => {

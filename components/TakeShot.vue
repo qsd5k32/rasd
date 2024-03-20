@@ -219,6 +219,9 @@
               يجب ان تضيف صور اولا
             </li>
           </ul>
+
+          <v-autocomplete v-model="building_id" label="مبنى" outlined :items="buildings" item-value="id" item-text="name" />
+
           <v-textarea
             class="mt-3"
             :label="$t('description')"
@@ -331,6 +334,7 @@ export default {
       recordingVideo: false,
       rasdType: 'camera',
       title: null,
+      building_id: null,
       splashScreen: true,
       mediaStream: null,
       showPhotoOptions: false,
@@ -367,6 +371,7 @@ export default {
       cameras: [],
       cameraDeviceID: null,
       loading: false,
+      buildings: null,
     };
   },
   computed: {
@@ -383,7 +388,7 @@ export default {
     },
   },
   mounted() {
-
+    this.getBuildings();
     this.getLocationPermission();
     if(this.locationAccess)
     {
@@ -396,6 +401,12 @@ export default {
     };
   },
   methods: {
+    getBuildings()
+    {
+      this.$axios.get("buildings").then((res) => {
+        this.buildings = res.data.data;
+      })
+    },
     getCameras() {
       try {
         navigator.mediaDevices.enumerateDevices().then(devices => {
@@ -662,6 +673,7 @@ export default {
           formData.append(`media[${index}][file]`, media.media);
         });
         formData.append("category_id", this.category_id);
+        formData.append("building_id", this.building_id);
         formData.append("title", this.title);
         // Add location data to formData
 
